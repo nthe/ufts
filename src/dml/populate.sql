@@ -1,0 +1,1 @@
+INSERT INTO {fts_idx}(rowid, {cols}) SELECT rowid, {cols} FROM {table};

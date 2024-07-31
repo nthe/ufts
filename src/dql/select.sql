@@ -1,0 +1,1 @@
+SELECT rank, * FROM {fts_idx} WHERE {fts_idx} MATCH ? ORDER BY rank LIMIT ?
