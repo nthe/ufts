@@ -7,7 +7,7 @@ from textwrap import wrap
 from . import args
 from .colors import Colored as cprint
 from .engine import SearchEngine
-from .utils import catchtime
+from .utils import Timer
 
 
 def cli():
@@ -24,22 +24,22 @@ def cli():
 
     with TemporaryDirectory(prefix="ufts_", dir=".") as tmp:
         cprint.blue(f" i | indexing {len(data):,} records")
-        with catchtime() as t:
+        with Timer() as t:
             engine = SearchEngine.create(name="utfs", at=Path(tmp))
             engine.ingest(data)
             engine.index()
-        cprint.blue(f" i | done in {float(t):^6.2f} s")
+        cprint.blue(f" i | done in {t.elapsed:^8.4f} s")
 
         while True:
             query = input(" ? | ")
             if not query or query.lower() in {"q", "quit"}:
                 break
 
-            with catchtime() as t:
+            with Timer() as t:
                 results = engine.search(query, size=5)
 
             for i, (rank, doc) in enumerate(results, start=1):
-                cprint.green(f" {i} | {abs(float(rank)):^6.2f}", end=" ")
+                cprint.green(f" {i} | {abs(float(rank)):^6.3f}", end=" ")
                 cprint.white(
                     "\n".join(
                         wrap(
@@ -50,6 +50,6 @@ def cli():
                     )
                 )
 
-            cprint.blue(f" i | done in {float(t):^6.2f} s")
+            cprint.blue(f" i | done in {t.elapsed:^8.6f} s")
 
         cprint.blue(" i | bye")

@@ -1,22 +1,18 @@
 from time import time
 
 
-class catchtime:
+class Timer:
+    def __init__(self) -> None:
+        self._started_at: float = 0.0
+        self._ended_at: float = 0.0
+
+    @property
+    def elapsed(self) -> float:
+        return self._ended_at - self._started_at
+
     def __enter__(self):
-        self.t = time()
+        self._started_at = time()
         return self
 
     def __exit__(self, type, value, traceback):
-        self.e = time()
-
-    def __float__(self):
-        return float(self.e - self.t)
-
-    def __coerce__(self, other):
-        return (float(self), other)
-
-    def __str__(self):
-        return str(float(self))
-
-    def __repr__(self):
-        return str(float(self))
+        self._ended_at = time()
