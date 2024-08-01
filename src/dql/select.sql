@@ -1,5 +1,5 @@
 SELECT
-    rank, highlight({fts_idx}, 0, '<b>', '</b>'), {fts_idx}
+    rank, *, highlight({fts_idx}, 0, '<b>', '</b>')
 FROM
     {fts_idx}
 WHERE

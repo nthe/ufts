@@ -1,1 +1,1 @@
-INSERT INTO {table}({cols}) VALUES(?);
+INSERT INTO {table}({cols}) VALUES({params});

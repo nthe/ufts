@@ -52,6 +52,7 @@ class SQLiteDefinition:
             "table": table,
             "fts_idx": index_name,
             "cols": ", ".join(columns),
+            "params": ", ".join("?" for _ in columns),
             "new_cols": ", ".join(f"new.{c}" for c in columns),
             "old_cols": ", ".join(f"old.{c}" for c in columns),
         }

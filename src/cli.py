@@ -21,12 +21,19 @@ def cli():
 
     with open(conf.input) as f:
         data = json.load(f)
-        data = list(set(data))
 
     with TemporaryDirectory(prefix="ufts_", dir=".") as tmp:
         cprint.blue(f" i | indexing {len(data):,} records", disabled=not conf.verbose)
         with Timer() as t:
-            engine = SearchEngine.create(name="utfs", columns=["content"], at=Path(tmp))
+            engine = SearchEngine.create(
+                name="utfs",
+                mapping={
+                    "question": "question",
+                    # "answer": "answer",
+                    # "level": "level",
+                },
+                at=Path(tmp),
+            )
             engine.ingest(data)
             engine.index()
         cprint.blue(f" i | done in {t.elapsed:^8.4f} s", disabled=not conf.verbose)
@@ -49,10 +56,11 @@ def cli():
                     )
                     results = engine.search(clean_query, size=5)
 
-                for i, (rank, doc, _) in enumerate(results, start=1):
+                for i, hit in enumerate(results, start=1):
+                    doc = hit["highlight"]
                     doc = doc.replace("<b>", ColorCodes.BOLD)
                     doc = doc.replace("</b>", ColorCodes.END)
-                    cprint.green(f" {i} | {abs(float(rank)):^6.3f}", end=" ")
+                    cprint.green(f" {i} | {abs(hit['rank']):^6.3f}", end=" ")
                     cprint.white(
                         "\n".join(
                             wrap(
