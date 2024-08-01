@@ -16,10 +16,10 @@ class SearchEngine:
     name: str
 
     @classmethod
-    def create(cls, *, name: str, at: Path) -> SearchEngine:
+    def create(cls, *, name: str, columns: list[str], at: Path) -> SearchEngine:
         path = at / f"{name}.db"
         db = sqlite3.connect(path)
-        sqls = SQLiteDefinition.of(table=name, columns=["text"])
+        sqls = SQLiteDefinition.of(table=name, columns=columns)
         db.executescript(sqls.pragma.query)
         db.executescript(sqls.create_table.query)
         return cls(db, sqls, name)
@@ -36,12 +36,14 @@ class SearchEngine:
         self.db.commit()
         return self
 
+    @classmethod
+    def sanitize(cls, query: str) -> str:
+        return re.sub(r"[^0-9a-zA-Z\^\*\(\)\+\"]+", " ", query)
+
     def search(self, query: str, size: int = 5) -> Generator[str]:
-        query = re.sub("[^0-9a-zA-Z]+", " ", query)
-        terms = " OR ".join(query.split())
         results = self.db.execute(
             self.sqls.select.query,
-            [terms, size],
+            [query, size],
         ).fetchmany(
             size=size,
         )

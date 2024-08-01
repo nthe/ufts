@@ -7,6 +7,17 @@ def parse():
         description="Micro Full-Text Search Engine",
     )
     parser.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        help="Enable verbose mode",
+    )
+    parser.add_argument(
+        "-i",
+        "--input",
+        help="Input file",
+    )
+    parser.add_argument(
         "-d",
         "--dir",
         default=".",
