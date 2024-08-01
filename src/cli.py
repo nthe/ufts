@@ -32,12 +32,16 @@ def cli():
         cprint.blue(f" i | done in {t.elapsed:^8.4f} s", disabled=not conf.verbose)
 
         while True:
-            query = input(" ? | ")
+            query = input(" ? | ").strip()
             if not query or query.lower() in {"q", "quit"}:
                 break
 
-            # clean_query = engine.sanitize(query)
-            clean_query = query.strip()
+            if conf.clean:
+                clean_query = engine.sanitize(query)
+
+            if conf.auto_or:
+                clean_query = " OR ".join(c for c in clean_query.split(" ") if c)
+
             try:
                 with Timer() as t:
                     cprint.blue(

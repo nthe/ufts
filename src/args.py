@@ -36,4 +36,22 @@ def parse():
         default="json",
         help="Input format",
     )
+    parser.add_argument(
+        "-a",
+        "--auto-or",
+        action="store_true",
+        help="Automatically convert search query to boolean OR terms",
+    )
+    parser.add_argument(
+        "-m",
+        "--metadata",
+        action="store_true",
+        help="Include metadata in search results",
+    )
+    parser.add_argument(
+        "-c",
+        "--clean",
+        action="store_true",
+        help="Clean query from special characters",
+    )
     return parser.parse_args()
