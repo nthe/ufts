@@ -1,6 +1,6 @@
 import sys
-import json
 import sqlite3
+import fileinput
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from textwrap import wrap
@@ -8,6 +8,7 @@ from textwrap import wrap
 from . import args
 from .colors import ColorCodes, Colored as cprint
 from .engine import SearchEngine
+from .readers import find_reader, Reader
 from .utils import Timer
 
 
@@ -15,23 +16,33 @@ def cli():
 
     cprint.yellow(" * | micro full-text search engine")
     conf = args.parse()
-    # conf.dir = Path(conf.dir)
-    # for f in Path(conf.dir).glob(conf.glob):
-    #     print(f.suffix.lstrip("."))
 
-    with open(conf.input) as f:
-        data = json.load(f)
+    feed = conf.input
+    if not feed and sys.stdin.isatty():
+        cprint.red(" ! | input file (-i param) or stdin is required")
+        sys.exit(1)
+
+    try:
+        reader: Reader = find_reader(Path(conf.input).suffix)()
+        with open(conf.input) as f:
+            data = reader.read(f)
+            data = list(data)
+            mapping = reader.get_mapping(next(iter(data)))
+
+    except ValueError as e:
+        err_type = e.__class__.__name__
+        cprint.red(f" ! | {err_type}")
+        cprint.red(f" ! | {e}")
+        sys.exit(1)
 
     with TemporaryDirectory(prefix="ufts_", dir=".") as tmp:
+        # NOTE: avoid conversion of generator to a list
+
         cprint.blue(f" i | indexing {len(data):,} records", disabled=not conf.verbose)
         with Timer() as t:
             engine = SearchEngine.create(
                 name="utfs",
-                mapping={
-                    "question": "question",
-                    # "answer": "answer",
-                    # "level": "level",
-                },
+                mapping=mapping,
                 at=Path(tmp),
             )
             engine.ingest(data)

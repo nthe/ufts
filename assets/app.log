@@ -1,0 +1,67 @@
+(.venv) jurajonuska [ufts] % | python3 -m src -i ./assets/headerless.csv -avc
+ * | micro full-text search engine
+False
+['Juraj', '32']
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/jurajonuska/Documents/Code/ufts/src/__main__.py", line 5, in <module>
+    cli()
+  File "/Users/jurajonuska/Documents/Code/ufts/src/cli.py", line 36, in cli
+    mapping = reader.get_mapping(next(iter(data)))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jurajonuska/Documents/Code/ufts/src/readers.py", line 59, in get_mapping
+    return {k: k for k in o.keys()}
+                          ^^^^^^
+AttributeError: 'list' object has no attribute 'keys'
+(.venv) jurajonuska [ufts] % | python3 -m src -i ./assets/headerless.csv -avc
+ * | micro full-text search engine
+False
+['Juraj', '32']
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/jurajonuska/Documents/Code/ufts/src/__main__.py", line 5, in <module>
+    cli()
+  File "/Users/jurajonuska/Documents/Code/ufts/src/cli.py", line 36, in cli
+    mapping = reader.get_mapping(next(iter(data)))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jurajonuska/Documents/Code/ufts/src/readers.py", line 59, in get_mapping
+    return self._header
+           ^^^^^^^^^^^^
+AttributeError: 'CsvReader' object has no attribute '_header'
+(.venv) jurajonuska [ufts] % | python3 -m src -i ./assets/headerless.csv -avc
+ * | micro full-text search engine
+False
+['Juraj', '32']
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/jurajonuska/Documents/Code/ufts/src/__main__.py", line 5, in <module>
+    cli()
+  File "/Users/jurajonuska/Documents/Code/ufts/src/cli.py", line 36, in cli
+    mapping = reader.get_mapping(next(iter(data)))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jurajonuska/Documents/Code/ufts/src/readers.py", line 63, in get_mapping
+    return self._header
+           ^^^^^^^^^^^^
+AttributeError: 'CsvReader' object has no attribute '_header'
+(.venv) jurajonuska [ufts] % | python3 -m src -i ./assets/headerless.csv -avc
+ * | micro full-text search engine
+False
+['col_0', 'col_1']
+['Juraj', '32']
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/jurajonuska/Documents/Code/ufts/src/__main__.py", line 5, in <module>
+    cli()
+  File "/Users/jurajonuska/Documents/Code/ufts/src/cli.py", line 36, in cli
+    mapping = reader.get_mapping(next(iter(data)))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jurajonuska/Documents/Code/ufts/src/readers.py", line 64, in get_mapping
+    return self._header
+           ^^^^^^^^^^^^
+AttributeError: 'CsvReader' object has no attribute '_header'
+(.venv) jurajonuska [ufts] % | python3 -m src -i ./assets/headerless.csv -avc
+ * | micro full-text search engine

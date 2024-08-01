@@ -4,7 +4,7 @@ import re
 import sqlite3
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Generator, Sequence
+from typing import Generator, Iterable
 
 from .defs import SQLiteDefinition
 
@@ -39,7 +39,7 @@ class SearchEngine:
             return [obj]
         return [obj.get(m, "") for m in self.mapping.values()]
 
-    def ingest(self, items: Sequence) -> SearchEngine:
+    def ingest(self, items: Iterable) -> SearchEngine:
         self.db.execute("begin")
         self.db.executemany(
             self.sqls.insert_into_table.query,
